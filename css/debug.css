@@ -1,0 +1,93 @@
+/* Debug panel. Deliberately plain and dense so it never looks like game UI. */
+
+.debug-panel {
+  position: fixed;
+  top: 64px;
+  left: 14px;
+  z-index: 10;
+  width: 280px;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(20, 22, 28, 0.92);
+  color: #e8eaf0;
+  font: 12px/1.4 ui-monospace, "Cascadia Code", Menlo, Consolas, monospace;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.debug-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #3a3f4b;
+}
+
+.debug-head strong { color: #ffd166; text-transform: uppercase; letter-spacing: 0.08em; }
+
+.debug-close {
+  margin-left: auto;
+  border: none;
+  background: none;
+  color: #e8eaf0;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.debug-section h3 {
+  margin: 10px 0 6px;
+  font-size: 11px;
+  color: #9aa3b5;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.debug-panel p { margin: 0 0 6px; }
+.debug-status { color: #7ee787; font-weight: 700; }
+.debug-status.paused { color: #ffd166; }
+.debug-counters { color: #c9d1d9; }
+.debug-hint { color: #8b93a5; font-size: 11px; }
+.debug-label { color: #9aa3b5; margin-right: 2px; }
+
+.debug-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.debug-panel .btn.small {
+  padding: 4px 8px;
+  font: inherit;
+  border-radius: 5px;
+  border: 1px solid #4a5160;
+  background: #2b303b;
+  color: #e8eaf0;
+  box-shadow: none;
+}
+
+.debug-panel .btn.small:hover:not(:disabled) { background: #363c49; }
+
+.chip {
+  padding: 3px 7px;
+  font: inherit;
+  border-radius: 5px;
+  border: 1px solid #4a5160;
+  background: #2b303b;
+  color: #e8eaf0;
+  cursor: pointer;
+}
+
+.chip[aria-pressed="true"] { background: #ffd166; border-color: #ffd166; color: #1b1d22; font-weight: 700; }
+
+.debug-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 4px;
+  cursor: pointer;
+}
+
+.debug-toggle input { accent-color: #ffd166; margin: 0; }

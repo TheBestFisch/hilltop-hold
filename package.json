@@ -1,0 +1,16 @@
+{
+  "name": "hilltop-hold",
+  "version": "1.0.0",
+  "description": "A low-poly tower defense game built with Three.js, with a built-in debug menu.",
+  "private": true,
+  "scripts": {
+    "test": "node --test \"tests/*.test.js\"",
+    "start": "npx --yes serve -l 5173 .",
+    "vendor": "echo \"export * from 'three';\" | npx --yes esbuild --bundle --format=iife --global-name=THREE --minify --legal-comments=none --banner:js=\"/* three.js | MIT License | https://threejs.org */\" --outfile=vendor/three.min.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0",
+    "three": "0.165.0"
+  },
+  "license": "MIT"
+}

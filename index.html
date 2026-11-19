@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hilltop Hold</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/debug.css">
+</head>
+<body>
+  <canvas id="scene"></canvas>
+
+  <div id="hud" hidden>
+    <div class="hud-top">
+      <div class="card stat"><span data-hud="wave"></span></div>
+      <div class="card stat lives"><span data-i18n="hud.lives"></span> <strong data-hud="lives"></strong></div>
+      <div class="card stat gold"><span data-i18n="hud.gold"></span> <strong data-hud="gold"></strong></div>
+      <div class="card stat" data-hud="enemies"></div>
+    </div>
+
+    <div class="build-bar card" data-build-bar></div>
+
+    <button class="btn primary wave-button" data-action="startWave" data-hud="waveButton"></button>
+
+    <aside class="card tower-panel" data-tower-panel hidden>
+      <div class="tower-head">
+        <img class="tower-icon" data-tower="icon" alt="">
+        <div>
+          <h3 data-tower="name"></h3>
+          <p class="tower-level" data-tower="level"></p>
+        </div>
+      </div>
+      <dl class="tower-stats" data-tower="stats"></dl>
+      <div class="tower-next" data-tower="next">
+        <img class="tower-icon small" data-tower="nextIcon" alt="">
+        <span data-tower="nextText"></span>
+      </div>
+      <div class="actions">
+        <button class="btn primary" data-action="upgradeTower" data-tower="upgrade"></button>
+        <button class="btn" data-action="sellTower" data-tower="sell"></button>
+      </div>
+    </aside>
+
+    <div class="toasts" data-hud="toasts"></div>
+  </div>
+
+  <aside class="debug-panel" data-debug hidden>
+    <header class="debug-head">
+      <strong data-i18n="debug.title"></strong>
+      <span class="debug-hint" data-i18n="debug.toggleHint"></span>
+      <button class="debug-close" data-debug-close aria-label="Close">×</button>
+    </header>
+    <div data-debug-sections></div>
+  </aside>
+
+  <section class="screen" data-screen="main" hidden>
+    <div class="panel">
+      <h1 class="title">Hilltop Hold</h1>
+      <p class="subtitle" data-i18n="menu.subtitle"></p>
+      <div class="actions">
+        <button class="btn primary" data-action="play" data-i18n="menu.play"></button>
+        <button class="btn" data-action="settings" data-i18n="menu.settings"></button>
+        <a class="btn" href="gallery.html" data-i18n="menu.gallery"></a>
+        <button class="btn" data-action="openDebug" data-i18n="menu.debug"></button>
+      </div>
+      <p class="best" data-best hidden></p>
+      <p class="hint" data-i18n="menu.debugHint"></p>
+    </div>
+  </section>
+
+  <section class="screen" data-screen="settings" hidden>
+    <div class="panel">
+      <h2 data-i18n="settings.title"></h2>
+      <form class="settings" data-settings>
+        <label class="field">
+          <span data-i18n="settings.language"></span>
+          <select name="language"></select>
+        </label>
+        <label class="field toggle">
+          <span data-i18n="settings.autoStartWaves"></span>
+          <input type="checkbox" name="autoStartWaves">
+        </label>
+        <label class="field toggle">
+          <span data-i18n="settings.screenShake"></span>
+          <input type="checkbox" name="screenShake">
+        </label>
+      </form>
+      <div class="actions">
+        <button class="btn primary" data-action="back" data-i18n="common.back"></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" data-screen="pause" hidden>
+    <div class="panel">
+      <h2 data-i18n="pause.title"></h2>
+      <div class="actions">
+        <button class="btn primary" data-action="resume" data-i18n="pause.resume"></button>
+        <button class="btn" data-action="settings" data-i18n="menu.settings"></button>
+        <button class="btn" data-action="quit" data-i18n="common.mainMenu"></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" data-screen="over" hidden>
+    <div class="panel">
+      <h2 data-i18n="over.title"></h2>
+      <p class="badge" data-over="newBest" data-i18n="over.newBest" hidden></p>
+      <dl class="results">
+        <dt data-i18n="over.wave"></dt><dd data-over="wave"></dd>
+        <dt data-i18n="over.best"></dt><dd data-over="best"></dd>
+      </dl>
+      <div class="actions">
+        <button class="btn primary" data-action="play" data-i18n="over.retry"></button>
+        <button class="btn" data-action="quit" data-i18n="common.mainMenu"></button>
+      </div>
+    </div>
+  </section>
+
+  <noscript>Hilltop Hold needs JavaScript enabled.</noscript>
+
+  <!-- Load order matters: each script depends only on the ones above it. -->
+  <script src="vendor/three.min.js"></script>
+  <script src="src/namespace.js"></script>
+  <script src="src/i18n/locales/en.js"></script>
+  <script src="src/i18n/locales/de.js"></script>
+  <script src="src/i18n/locales/ro.js"></script>
+  <script src="src/i18n/i18n.js"></script>
+  <script src="src/core/math.js"></script>
+  <script src="src/core/storage.js"></script>
+  <script src="src/core/Settings.js"></script>
+  <script src="src/core/TimeController.js"></script>
+  <script src="src/data/map.js"></script>
+  <script src="src/data/enemies.js"></script>
+  <script src="src/data/towers.js"></script>
+  <script src="src/data/waves.js"></script>
+  <script src="src/data/village.js"></script>
+  <script src="src/sim/path.js"></script>
+  <script src="src/sim/World.js"></script>
+  <script src="src/models/kit.js"></script>
+  <script src="src/models/animation.js"></script>
+  <script src="src/models/towers.js"></script>
+  <script src="src/models/units.js"></script>
+  <script src="src/models/scenery.js"></script>
+  <script src="src/models/catalog.js"></script>
+  <script src="src/render/Lighting.js"></script>
+  <script src="src/render/cameraRig.js"></script>
+  <script src="src/render/Thumbnailer.js"></script>
+  <script src="src/view/terrain.js"></script>
+  <script src="src/view/MapView.js"></script>
+  <script src="src/view/UnitsView.js"></script>
+  <script src="src/view/Effects.js"></script>
+  <script src="src/view/FireSystem.js"></script>
+  <script src="src/view/VillageView.js"></script>
+  <script src="src/view/DebugOverlay.js"></script>
+  <script src="src/ui/Hud.js"></script>
+  <script src="src/ui/UI.js"></script>
+  <script src="src/debug/DebugMenu.js"></script>
+  <script src="src/debug/timeControls.js"></script>
+  <script src="src/debug/testControls.js"></script>
+  <script src="src/Game.js"></script>
+  <script src="src/main.js"></script>
+</body>
+</html>

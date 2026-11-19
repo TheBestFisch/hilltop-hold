@@ -1,0 +1,299 @@
+:root {
+  --ink: #2f2a24;
+  --ink-soft: #6f6556;
+  --paper: #fbf5e8;
+  --paper-deep: #efe4cc;
+  --line: #cdb88f;
+  --accent: #3f7cc0;
+  --accent-hover: #4b8ad0;
+  --accent-ink: #ffffff;
+  --gold: #c9921c;
+  --danger: #c2533f;
+  --radius: 14px;
+  --shadow: 0 5px 0 rgba(80, 60, 30, 0.18), 0 12px 28px rgba(40, 30, 10, 0.2);
+  font-family: "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #a9d7ec;
+  user-select: none;
+}
+
+#scene {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+[hidden] { display: none !important; }
+
+/* Panels and buttons */
+
+.screen {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(40, 30, 15, 0.3);
+}
+
+/* The game-over results sit low, under a smoky gradient, so the fallen village burns in view above them. */
+.screen[data-screen="over"] {
+  place-items: end center;
+  padding-bottom: max(16px, 5vh);
+  background: linear-gradient(to top, rgba(40, 18, 8, 0.6), rgba(40, 18, 8, 0.15) 55%, rgba(40, 18, 8, 0.05));
+}
+
+.panel, .card {
+  background: var(--paper);
+  border: 3px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.panel {
+  width: min(420px, 100%);
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  padding: 28px;
+  text-align: center;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(2.3rem, 8vw, 3.2rem);
+  font-weight: 900;
+  color: var(--accent);
+  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.12);
+}
+
+h2 { margin: 0 0 14px; font-size: 1.7rem; }
+h3 { margin: 0; font-size: 1.05rem; }
+
+.subtitle { margin: 8px 0 24px; color: var(--ink-soft); }
+.hint { margin: 16px 0 0; font-size: 0.82rem; color: var(--ink-soft); }
+.best { margin: 16px 0 0; font-weight: 800; color: var(--gold); }
+
+.actions { display: grid; gap: 10px; }
+
+.btn {
+  font: inherit;
+  font-weight: 800;
+  font-size: 1rem;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 2px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+  box-shadow: 0 3px 0 var(--line);
+}
+
+.btn:hover { background: #fffaf0; }
+.btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--line); }
+.btn:focus-visible, .build-option:focus-visible, .chip:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+.btn.primary {
+  background: var(--accent);
+  border-color: #2f6299;
+  color: var(--accent-ink);
+  box-shadow: 0 3px 0 #2f6299;
+}
+
+.btn.primary:hover { background: var(--accent-hover); }
+
+.badge {
+  display: inline-block;
+  margin: 0 0 12px;
+  padding: 4px 12px;
+  border-radius: 99px;
+  background: var(--gold);
+  color: #fff;
+  font-weight: 800;
+}
+
+.results {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px 14px;
+  margin: 8px 0 22px;
+  text-align: left;
+  font-size: 1.05rem;
+}
+
+.results dt { color: var(--ink-soft); }
+.results dd { margin: 0; font-weight: 800; }
+
+/* Settings */
+
+.settings { display: grid; gap: 14px; margin: 6px 0 22px; text-align: left; }
+.field { display: grid; grid-template-columns: 1fr 1.1fr; align-items: center; gap: 12px; }
+.field.toggle { grid-template-columns: 1fr auto; }
+
+.field select {
+  font: inherit;
+  width: 100%;
+  padding: 7px;
+  border-radius: 8px;
+  border: 2px solid var(--line);
+  background: #fff;
+}
+
+.field input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent); }
+
+/* HUD */
+
+#hud { position: fixed; inset: 0; pointer-events: none; }
+#hud .btn, #hud .build-option, #hud .tower-panel { pointer-events: auto; }
+a.btn { text-decoration: none; display: block; text-align: center; }
+
+.hud-top {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.stat {
+  padding: 6px 14px;
+  font-weight: 800;
+  border-width: 2px;
+}
+
+.stat span { color: var(--ink-soft); font-weight: 700; }
+.lives strong { color: var(--danger); }
+.gold strong { color: var(--gold); }
+
+/* The village card reacts to the gate: it pulses while the gate is stormed, jolts with every blow, and reddens when the gate is about to give. */
+.lives { transition: background-color 0.4s, border-color 0.4s; }
+.lives.under-attack { border-color: var(--danger); animation: alarm-pulse 0.9s ease-in-out infinite; }
+.lives.weak { background: #f8d9cf; }
+.lives.hit strong { display: inline-block; animation: lives-hit 0.45s ease-out; }
+
+@keyframes alarm-pulse {
+  50% { box-shadow: 0 0 0 4px rgba(194, 83, 63, 0.35), var(--shadow); }
+}
+
+@keyframes lives-hit {
+  0% { transform: scale(1.6); color: #fff; text-shadow: 0 0 6px var(--danger); }
+  100% { transform: scale(1); }
+}
+
+/* While the village falls the build bar fades: nothing more can be built. */
+#hud.fallen .build-bar { opacity: 0.35; transition: opacity 0.6s; }
+#hud.fallen .build-bar * { pointer-events: none; }
+
+.build-bar {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  translate: -50% 0;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+}
+
+.build-option {
+  font: inherit;
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  width: 104px;
+  padding: 6px;
+  border: 2px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.build-option img { width: 56px; height: 56px; }
+.build-option .cost { color: var(--gold); font-weight: 900; }
+.build-option .key { color: var(--ink-soft); font-size: 0.7rem; }
+.build-option[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent); }
+.build-option.unaffordable { opacity: 0.5; }
+
+.wave-button {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  font-size: 1.05rem;
+}
+
+.tower-panel {
+  position: absolute;
+  right: 14px;
+  top: 70px;
+  width: 240px;
+  padding: 14px;
+  display: grid;
+  gap: 8px;
+}
+
+.tower-head { display: flex; align-items: center; gap: 10px; }
+.tower-icon { width: 56px; height: 56px; flex: none; background: var(--paper-deep); border-radius: 10px; }
+.tower-icon.small { width: 40px; height: 40px; }
+.tower-level { margin: 0; color: var(--ink-soft); font-weight: 700; }
+.tower-next { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 10px; background: var(--paper-deep); font-size: 0.8rem; font-weight: 700; color: var(--ink-soft); }
+
+.tower-stats {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 10px;
+  margin: 0;
+  font-size: 0.88rem;
+}
+
+.tower-stats dt { color: var(--ink-soft); }
+.tower-stats dd { margin: 0; font-weight: 800; text-align: right; }
+.tower-stats .wide { grid-column: 1 / -1; text-align: left; }
+
+.toasts {
+  position: absolute;
+  top: 16%;
+  left: 50%;
+  translate: -50% 0;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+}
+
+.toast {
+  padding: 8px 18px;
+  border: 2px solid var(--line);
+  border-radius: 99px;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+  font-weight: 800;
+  animation: toast 2.2s ease forwards;
+}
+
+@keyframes toast {
+  0% { opacity: 0; transform: translateY(8px); }
+  10%, 80% { opacity: 1; transform: none; }
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast { animation: none; }
+}
+
+@media (max-width: 720px) {
+  .build-option { width: 80px; }
+  .build-option img { width: 40px; height: 40px; }
+  .wave-button { bottom: 120px; }
+  .tower-panel { top: auto; bottom: 170px; }
+}

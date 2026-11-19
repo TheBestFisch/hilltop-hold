@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hilltop Hold · Asset Gallery</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/gallery.css">
+</head>
+<body class="gallery-page">
+  <header class="gallery-head">
+    <a class="btn small" href="index.html" data-i18n="gallery.backToGame"></a>
+    <div class="gallery-title">
+      <h1>Hilltop Hold <span data-i18n="gallery.title"></span></h1>
+      <p data-i18n="gallery.subtitle"></p>
+    </div>
+    <label class="gallery-language">
+      <span data-i18n="settings.language"></span>
+      <select data-language></select>
+    </label>
+  </header>
+
+  <main class="gallery">
+    <aside class="gallery-list card">
+      <div class="chips" data-filters></div>
+      <p class="gallery-count" data-count></p>
+      <div class="cards" data-cards></div>
+    </aside>
+
+    <section class="gallery-viewer card">
+      <div class="viewer-canvas">
+        <canvas id="viewer"></canvas>
+      </div>
+      <div class="viewer-toolbar">
+        <label><input type="checkbox" data-option="animate"> <span data-i18n="gallery.animate"></span></label>
+        <label><input type="checkbox" data-option="footprint"> <span data-i18n="gallery.footprint"></span></label>
+        <label><input type="checkbox" data-option="wireframe"> <span data-i18n="gallery.wireframe"></span></label>
+        <label><input type="checkbox" data-option="ground"> <span data-i18n="gallery.ground"></span></label>
+        <button type="button" class="btn small" data-reset-view data-i18n="gallery.resetView"></button>
+        <span class="viewer-hint" data-i18n="gallery.dragHint"></span>
+      </div>
+    </section>
+
+    <aside class="gallery-details card">
+      <h2 data-detail="name"></h2>
+      <code class="asset-id" data-detail="id"></code>
+      <div class="chips" data-detail="variants"></div>
+      <h3 data-i18n="gallery.collision"></h3>
+      <p class="detail-footprint" data-detail="footprint"></p>
+      <h3 data-i18n="gallery.gameplay"></h3>
+      <dl class="detail-rows" data-detail="data"></dl>
+      <h3 data-i18n="gallery.stats"></h3>
+      <dl class="detail-rows" data-detail="stats"></dl>
+      <p class="hint" data-i18n="gallery.legend"></p>
+    </aside>
+  </main>
+
+  <noscript>The gallery needs JavaScript enabled.</noscript>
+
+  <!-- Load order matters: each script depends only on the ones above it. -->
+  <script src="vendor/three.min.js"></script>
+  <script src="src/namespace.js"></script>
+  <script src="src/i18n/locales/en.js"></script>
+  <script src="src/i18n/locales/de.js"></script>
+  <script src="src/i18n/locales/ro.js"></script>
+  <script src="src/i18n/i18n.js"></script>
+  <script src="src/core/math.js"></script>
+  <script src="src/core/storage.js"></script>
+  <script src="src/core/Settings.js"></script>
+  <script src="src/data/enemies.js"></script>
+  <script src="src/data/towers.js"></script>
+  <script src="src/models/kit.js"></script>
+  <script src="src/models/animation.js"></script>
+  <script src="src/models/towers.js"></script>
+  <script src="src/models/units.js"></script>
+  <script src="src/models/scenery.js"></script>
+  <script src="src/models/catalog.js"></script>
+  <script src="src/render/Lighting.js"></script>
+  <script src="src/render/Thumbnailer.js"></script>
+  <script src="src/gallery/Gallery.js"></script>
+  <script src="src/gallery/main.js"></script>
+</body>
+</html>
