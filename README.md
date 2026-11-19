@@ -460,4 +460,4 @@ npm install && npm run vendor
 
 ## License
 
-MIT. Three.js is MIT licensed, see `vendor/three.LICENSE`.
+MIT, see [`LICENSE`](LICENSE). Three.js is bundled under its own MIT licence, see [`vendor/three.LICENSE`](vendor/three.LICENSE).
